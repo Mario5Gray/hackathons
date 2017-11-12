@@ -16,3 +16,16 @@ mvn spring-boot:run
 ####Maven2 executable jar procedure
 
 ... TBA
+
+##Server Details
+service runs on `localhost:8080`
+
+###service endpoints:
+
+GET /capsanta/byDocId/$DOCID -> {json}
+
+GET /capsanta/connect -> redirect to capOne
+
+GET /capsanta/oauth/token -> login
+
+GET /capsanta/... TBA
