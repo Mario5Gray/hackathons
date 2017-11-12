@@ -25,6 +25,9 @@ public class CapClient {
     @Value("${capone.app.url}")
     String url;
 
+    @Value("${capone.token.url}")
+    String tokenUrl;
+
     @Value("${capone.auth.url}")
     String authUrl;
 
@@ -34,7 +37,10 @@ public class CapClient {
     @Value("${capone.client.secret}")
     String clientSecret;
 
-    public CapAuth accessToken() throws Exception {
+    @Value("${redirect.url}")
+    String appRedirectUrl;
+
+    public CapAuthToken accessToken() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
@@ -48,19 +54,32 @@ public class CapClient {
                         headers
                 );
 
-        return restTemplate.postForEntity(authUrl,
+        return restTemplate.postForEntity(tokenUrl,
                 request,
-                CapAuth.class)
+                CapAuthToken.class)
                 .getBody();
     }
+
+    public String getRedirectUrl() {
+    /*
+    https://apiit.capitalone.com/oauth2/authorize?
+    client_id=your_client_id&redirect_uri=your_redirect_uri&
+    scope=signin openid&response_type=code&state=your_state_value
+
+     */
+    String simpleState="1234";
+    String url = "%s?client_id=%s&redirect_uri=%s&scope=signin openid&response_type=code&state=%s";
+    return String.format(url, this.authUrl, this.clientId, this.appRedirectUrl, simpleState);
+    }
 }
+
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @NoArgsConstructor
 @AllArgsConstructor
-class CapAuth {
+class CapAuthToken {
     String issuedAt;
     String tokenType;
     Long expiresIn;

@@ -19,10 +19,10 @@ public class DemoCapOneClientTest {
     @Test
     @SneakyThrows
     public void shouldCallCapOne() {
-        CapAuth capAuth = capClient.accessToken();
+        CapAuthToken capAuthToken = capClient.accessToken();
 
-        Assertions.assertThat(capAuth).isNotNull();
-        Assertions.assertThat(capAuth.getAccessToken()).isNotNull();
+        Assertions.assertThat(capAuthToken).isNotNull();
+        Assertions.assertThat(capAuthToken.getAccessToken()).isNotNull();
     }
 
 }

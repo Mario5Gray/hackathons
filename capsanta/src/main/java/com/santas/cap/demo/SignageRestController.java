@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.Collection;
 
@@ -14,9 +15,17 @@ public class SignageRestController {
     @Autowired
     SignageRepository signageRepository;
 
+    @Autowired
+    CapClient capClient;
+
     @GetMapping("/byDocId/{docId}")
     public Collection<Signage> getByDocId(@PathVariable("docId") String docId) {
         return signageRepository.getByDocId(docId);
+    }
+
+    @GetMapping("/connect")
+    public void connect(HttpServletResponse response) throws Exception {
+        response.sendRedirect(capClient.getRedirectUrl());
     }
 }
 

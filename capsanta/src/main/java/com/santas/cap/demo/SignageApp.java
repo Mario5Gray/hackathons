@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,7 +18,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-@EnableResourceServer
+//@EnableResourceServer
 @SpringBootApplication
 public class SignageApp {
 
@@ -31,8 +32,8 @@ public class SignageApp {
     }
 }
 
-@Configuration
-@EnableAuthorizationServer
+//@Configuration
+//@EnableAuthorizationServer
 class SignageAuthorizationConfiguration {
     AuthenticationManager authMan;
 
