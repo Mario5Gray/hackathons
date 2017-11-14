@@ -23,7 +23,7 @@ public class BaseClass {
     SignageRepository signageRepository;
 
     @Autowired
-    SignageRestController signageRestController;
+    SignageController signageController;
 
     @Before
     public void setupMockReturnData() {
@@ -35,7 +35,7 @@ public class BaseClass {
         Mockito.when(signageRepository.getByDocId(Mockito.anyString()))
                 .thenReturn(sigSupply.get());
 
-        RestAssuredMockMvc.standaloneSetup(signageRestController);
+        RestAssuredMockMvc.standaloneSetup(signageController);
     }
 
 }

@@ -1,6 +1,6 @@
 package com.santas.cap.demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,30 +10,36 @@ import java.security.Principal;
 import java.util.Collection;
 
 @RestController
-public class SignageRestController {
+@AllArgsConstructor
+public class SignageController {
 
-    @Autowired
     SignageRepository signageRepository;
 
-    @Autowired
-    CapClient capClient;
+    CapOneOAuth2Redirector capOneOAuth2Redirector;
 
     @GetMapping("/byDocId/{docId}")
     public Collection<Signage> getByDocId(@PathVariable("docId") String docId) {
         return signageRepository.getByDocId(docId);
     }
 
-    @GetMapping("/connect")
-    public void connect(HttpServletResponse response) throws Exception {
-        response.sendRedirect(capClient.getRedirectUrl());
+    @GetMapping("/connect/{network}")
+    public void connect(@PathVariable("network") String networkConnect, HttpServletResponse response) throws Exception {
+        if (networkConnect.matches("capone")) {
+            response.sendRedirect(capOneOAuth2Redirector.getRedirectUrl());
+        } else {
+            response.sendRedirect("/"); // TODO: Send somewhere responsable
+        }
     }
 }
 
 @RestController
-class SignageUserRestController {
+class UserController {
 
-    @Autowired
     UserRepository userRepository;
+
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @GetMapping("/user/{username}")
     public User getByUsername(@PathVariable("userName") String username, Principal principal) {
